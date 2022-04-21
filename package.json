@@ -1,0 +1,28 @@
+{
+  "name": "telegram_bot",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000U\u0000z\u0000t\u0000o\u0000z\u0000_\u0000s\u0000h\u0000o\u0000g\u0000i\u0000r\u0000t\u0000_\u0000b\u0000o\u0000t\u0000_\u0000c\u0000l\u0000o\u0000n\u0000e\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ogabekjewel/Uztoz_shogirt_bot_clone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ogabekjewel/Uztoz_shogirt_bot_clone/issues"
+  },
+  "homepage": "https://github.com/ogabekjewel/Uztoz_shogirt_bot_clone#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "form-data": "^4.0.0",
+    "mongoose": "^6.3.0",
+    "node-telegram-bot-api": "^0.56.0",
+    "uuid": "^8.3.2"
+  }
+}
