@@ -36,3 +36,4 @@ const ApplicationSchema = new mongoose.Schema({
 const new_project_applications = mongoose.model("new_project_applications", ApplicationSchema)
 
 module.exports = new_project_applications
+    

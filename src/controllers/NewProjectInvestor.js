@@ -1,4 +1,6 @@
+const { default: slugify } = require("slugify")
 const { v4 } = require("uuid")
+const { ADMIN_ID } = require("../../config")
 const applications = require("../model/ApplicationModel")
 const new_project_applications = require("../model/NewProjectApplications")
 const users = require("../model/UserModel")
@@ -119,11 +121,17 @@ module.exports = async function(bot, message) {
                 step: "invest#5"
             })
         } else if(user.step == "invest#5") {
+            let percent = await slugify(`${text}`, {
+                replacement: (''),
+                remove: /[*+~.()%'"!:@]/g,
+            })
+
             await applications.findOneAndUpdate({
                 user_id: user.id,
             }, {
-                percent: text,
+                percent,
             })
+            
 
             await bot.sendMessage(user_id, "Yillik daromadi qancha?")
 
@@ -151,16 +159,18 @@ module.exports = async function(bot, message) {
                             text: "Ha✅"
                         },
                         {
-                            text: "Yo'q❎"
+                            text: "Yo'q❌"
                         }
                     ]
                 ]
             }
 
-            await bot.sendMessage(user_id, `<b>Yangi loyiha uchun ariza:</b>\n<b>👨‍💼Ism:</b> ${user.name}\n<b>📞 Aloqa:</b> ${app.phone}\n<b>🇺🇿Telegram:</b> @${user.username}\n<b>🏢Loyiha yo'nalishi:</b> ${app.direction}\n<b>🔎Loyiha haqida:</b> ${app.description}\n<b>💰Sarmoya:</b> ${app.capital}\n<b>📊Investor uchun foiz</b>: ${app.percent}\n<b>📈Yillik daromadi</b>: ${app.income}`, {
+            await bot.sendMessage(user_id, `<b>Yangi loyiha uchun ariza:</b>\n<b>👨‍💼Ism:</b> ${user.name}\n<b>📞 Aloqa:</b> ${app.phone}\n<b>🇺🇿Telegram:</b> @${user.username}\n<b>🏢Loyiha yo'nalishi:</b> ${app.direction}\n<b>🔎Loyiha haqida:</b> ${app.description}\n<b>💰Sarmoya:</b> ${app.capital}\n<b>📊Investor uchun foiz</b>: ${app.percent}%\n<b>📈Yillik daromadi</b>: ${app.income}`, {
                 reply_markup: keyboard,
                 parse_mode: "HTML",
             })
+
+            await bot.sendMessage(user_id, "Barcha ma'lumotlar to'g'rimi?")
 
             await users.findOneAndUpdate({
                 user_id,
@@ -182,7 +192,7 @@ module.exports = async function(bot, message) {
                     step:0,
                 })
 
-                await bot.sendMessage(1383785054, `<b>Yangi loyiha uchun ariza:</b>\n<b>👨‍💼Ism:</b> ${user.name}\n<b>📞 Aloqa:</b> ${app.phone}\n<b>🇺🇿Telegram:</b> @${user.username}\n<b>🏢Loyiha yo'nalishi:</b> ${app.direction}\n<b>🔎Loyiha haqida:</b> ${app.description}\n<b>💰Sarmoya:</b> ${app.capital}\n<b>📊Investor uchun foiz</b>: ${app.percent}\n<b>📈Yillik daromadi</b>: ${app.income}\n\n#new_project`, {
+                await bot.sendMessage(ADMIN_ID, `<b>Yangi loyiha uchun ariza:</b>\n<b>👨‍💼Ism:</b> ${user.name}\n<b>📞 Aloqa:</b> ${app.phone}\n<b>🇺🇿Telegram:</b> @${user.username}\n<b>🏢Loyiha yo'nalishi:</b> ${app.direction}\n<b>🔎Loyiha haqida:</b> ${app.description}\n<b>💰Sarmoya:</b> ${app.capital}\n<b>📊Investor uchun foiz</b>: ${app.percent}\n<b>📈Yillik daromadi</b>: ${app.income}\n\n#new_project`, {
                     parse_mode: "HTML",
                 })
 
@@ -193,7 +203,7 @@ module.exports = async function(bot, message) {
                 })
 
                 await MenuController(bot, message)
-            } else if(text == "Yo'q❎") {
+            } else if(text == "Yo'q❌") {
                 await new_project_applications.findOneAndDelete({
                     user_id: user.id,
                 })

@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema({
     menu: {
         type: String,
         default: 0,
+        required: true,
     }
 })
 
